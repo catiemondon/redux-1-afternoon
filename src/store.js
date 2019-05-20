@@ -18,6 +18,7 @@ export const ADD_INGREDIENT="ADD_INGREDIENT"
 export const ADD_INSTRUCTION="ADD_INSTRUCTION"
 export const ADD_RECIPE= "ADD_RECIPE"
 export const RESET='RESET'
+export const DELETE_RECIPE='DELETE_RECIPE'
 
 function reducer(state= initialState, action){
     const {type, payload}= action;
@@ -54,9 +55,13 @@ function reducer(state= initialState, action){
             instructions
         };
         const newRecipes=[...state.recipes, recipe]
-        return {...state, recipes: newRecipes}
-        case RESET:
-        return state
+        return {...initialState, recipes: newRecipes}
+        case DELETE_RECIPE:
+        console.log(action)
+        return{
+            recipes: state.recipes.splice(action.payload, 1)
+        }
+
         default: 
         return state;
     }

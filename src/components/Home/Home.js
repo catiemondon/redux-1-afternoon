@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
 import "./Home.css";
-import store, {RESET} from './../../store'
+import store, { DELETE_RECIPE } from './../../store'
 
 
 class Home extends Component {
@@ -14,9 +14,20 @@ class Home extends Component {
     };
   }
 
-  reset(){
+  componentDidMount(){
+    store.subscribe(()=>{
+      this.setState({
+        store: store.getState()
+      })
+    })
+  }
+
+  delete(recipe){
+    console.log('hit')
     store.dispatch({
-      type: RESET
+      type: DELETE_RECIPE,
+      payload: recipe
+      
     })
   }
 
@@ -31,14 +42,16 @@ class Home extends Component {
           authorLast={recipe.authorLast}
           ingredients={recipe.ingredients}
           instructions={recipe.instructions}
+          id={i}
+          delete={this.delete}
         />
       );
     });
     return (
       <div className="Home">
-
+       {/* onClick={()=>this.reset()} */}
         <Link to="/add/name">
-          <button onClick={()=>this.reset()}>Create New Recipe</button>
+          <button   >Create New Recipe</button>
         </Link>
         <div className="card_container">{recipes}</div>
       </div>
