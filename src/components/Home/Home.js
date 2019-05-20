@@ -2,13 +2,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
 import "./Home.css";
+import store, {RESET} from './../../store'
+
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    const reduxState= store.getState()
     this.state = {
-      recipes: []
+      recipes: reduxState.recipes
     };
+  }
+
+  reset(){
+    store.dispatch({
+      type: RESET
+    })
   }
 
   render() {
@@ -27,8 +36,9 @@ class Home extends Component {
     });
     return (
       <div className="Home">
+
         <Link to="/add/name">
-          <button>Create New Recipe</button>
+          <button onClick={()=>this.reset()}>Create New Recipe</button>
         </Link>
         <div className="card_container">{recipes}</div>
       </div>
